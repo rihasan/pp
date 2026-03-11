@@ -269,7 +269,7 @@ function CV() {
 
       {/* Download Button */}
       <a
-        href="public/A.H.M_Riazul_Islam_CV.pdf"
+        href="A.H.M_Riazul_Islam_CV.pdf"
         target="_blank"
         rel="noopener noreferrer"
         className="button"

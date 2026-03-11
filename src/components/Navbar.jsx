@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Theme logic with system preference
+  // Theme logic
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) return savedTheme;
@@ -25,38 +25,23 @@ function Navbar() {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // Handle section navigation with clean url
-  // const handleSectionClick = (e, targetId) => {
-  //   e.preventDefault();
-  //   setIsOpen(false);
-  //   if (location.pathname !== "/") {
-  //     navigate("/", { replace: false });
-  //     setTimeout(() => {
-  //       const el = document.getElementById(targetId);
-  //       if (el) el.scrollIntoView({ behavior: "smooth" });
-  //     }, 50);
-  //   } else {
-  //     const el = document.getElementById(targetId);
-  //     if (el) el.scrollIntoView({ behavior: "smooth" });
-  //   }
-  // };
-
-  // Handle section navigation with #slag url like #about
   const handleSectionClick = (e, targetId) => {
-    // 1. Remove e.preventDefault() if you want the URL to update naturally,
-    // OR manually update the hash. We will update it manually for better control.
+    if (e) e.preventDefault();
     setIsOpen(false);
 
+    // If not on Home, navigate to root hash first
     if (location.pathname !== "/") {
-      // If we are on /cv, go to home first, then scroll
-      navigate(`/#${targetId}`);
+      navigate("/");
+      setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 100);
     } else {
-      // If we are already on home, scroll smoothly and update URL
       const el = document.getElementById(targetId);
       if (el) {
         el.scrollIntoView({ behavior: "smooth" });
-        // This updates the URL to /#about without reloading the page
-        window.history.pushState(null, null, `/#${targetId}`);
+        // FIXED: Use a relative hash update to avoid dropping /pp/
+        window.location.hash = `#/${targetId === "hero" ? "" : targetId}`;
       }
     }
   };
@@ -67,16 +52,35 @@ function Navbar() {
       style={{ backgroundColor: "#111", borderBottom: "1px solid #222" }}
     >
       <div className="container">
-        {/* 1. BRAND */}
+        {/* 1. BRAND - Instant Home Scroll & URL Reset */}
         <a
           className="navbar-brand fw-bold fs-3 order-1"
-          href="/"
-          onClick={() => (window.location.href = "/")}
+          href="#/"
+          onClick={(e) => {
+            e.preventDefault();
+            setIsOpen(false);
+
+            // 1. If on CV page, go back to Home first
+            if (location.pathname !== "/") {
+              navigate("/");
+              // Small delay to let the Home page mount before scrolling
+              setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }, 100);
+            } else {
+              // 2. If already on Home, just smooth scroll to top
+              window.scrollTo({ top: 0, behavior: "smooth" });
+
+              // 3. Clean the URL hash to the base project root
+              window.history.pushState(null, null, "#/");
+            }
+          }}
+          style={{ cursor: "pointer" }}
         >
           R I Hasan
         </a>
 
-        {/* 2. SOCIALS (Centered) */}
+        {/* 2. SOCIALS */}
         <div className="d-flex order-2 flex-grow-1 justify-content-center">
           <div className="d-flex gap-2">
             <a
@@ -117,7 +121,8 @@ function Navbar() {
                 <li key={id} className="nav-item">
                   <a
                     className="nav-link px-3"
-                    href={`/#${id}`}
+                    /* FIXED: Removed the leading slash to keep it relative to /pp/ */
+                    href={`#/${id === "hero" ? "" : id}`}
                     onClick={(e) => handleSectionClick(e, id)}
                   >
                     {id === "hero"
@@ -132,12 +137,12 @@ function Navbar() {
               <Link
                 to="/cv"
                 className="btn btn-info btn-sm rounded-pill px-4 ms-lg-3 fw-bold text-white my-2 my-lg-0"
+                onClick={() => setIsOpen(false)}
               >
                 Resume
               </Link>
             </li>
 
-            {/* THEME TOGGLE WITH BRIGHTNESS BOOST */}
             <li className="nav-item ms-lg-3">
               <div
                 onClick={toggleTheme}
