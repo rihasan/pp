@@ -12,7 +12,7 @@ function About() {
             business solutions.
           </p>
           <div className="row g-3">
-            <div className="col-3">
+            <div className="col-6 col-md-3">
               <div className="bento-card border-0 bg-info bg-opacity-10 text-center py-4">
                 <i className="fas fa-rocket fa-2x text-info mb-2"></i>
                 <br />
@@ -20,7 +20,7 @@ function About() {
               </div>
             </div>
 
-            <div className="col-3">
+            <div className="col-6 col-md-3">
               <div className="bento-card border-0 bg-info bg-opacity-10 text-center py-4">
                 <i className="fas fa-book-reader fa-2x text-info mb-2"></i>
                 <br />
@@ -28,7 +28,7 @@ function About() {
               </div>
             </div>
 
-            <div className="col-3">
+            <div className="col-6 col-md-3">
               <div className="bento-card border-0 bg-info bg-opacity-10 text-center py-4">
                 <i className="fas fa-music fa-2x text-info mb-2"></i>
                 <br />
@@ -36,7 +36,7 @@ function About() {
               </div>
             </div>
 
-            <div className="col-3">
+            <div className="col-6 col-md-3">
               <div className="bento-card border-0 bg-info bg-opacity-10 text-center py-4">
                 <i className="fas fa-guitar fa-2x text-info mb-2"></i>
                 <br />

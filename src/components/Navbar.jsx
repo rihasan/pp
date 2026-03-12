@@ -1,6 +1,18 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
+// const sections = [
+//   "hero",
+//   "about",
+//   "skills",
+//   "projects",
+//   "education",
+//   "github",
+//   "philosophy",
+//   "lifestyle",
+//   "contact",
+// ];
+
 const sections = ["hero", "about", "portfolio", "experience", "contact"];
 
 function Navbar() {
@@ -20,7 +32,7 @@ function Navbar() {
   });
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
   useEffect(() => {
@@ -29,8 +41,7 @@ function Navbar() {
   }, [theme]);
 
   /*
-  INTERSECTION OBSERVER
-  Detects which section is visible
+  Scroll detection for active nav highlight
   */
 
   useEffect(() => {
@@ -56,15 +67,14 @@ function Navbar() {
   }, []);
 
   /*
-  Scroll handler
+  Scroll + update URL
   */
 
   const scrollToSection = (id) => {
     setIsOpen(false);
 
-    if (location.pathname !== "/") {
-      navigate("/");
-      return;
+    if (location.pathname !== `/${id}`) {
+      navigate(`/${id}`);
     }
 
     const el = document.getElementById(id);
@@ -97,7 +107,7 @@ function Navbar() {
           R I Hasan
         </div>
 
-        {/* SOCIALS */}
+        {/* SOCIAL LINKS */}
 
         <div className="d-flex order-2 flex-grow-1 justify-content-center">
           <div className="d-flex gap-2">
@@ -121,16 +131,17 @@ function Navbar() {
           </div>
         </div>
 
-        {/* TOGGLER */}
+        {/* MOBILE TOGGLER */}
 
         <button
           className="navbar-toggler order-3"
+          type="button"
           onClick={() => setIsOpen(!isOpen)}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* NAV LINKS */}
+        {/* NAV MENU */}
 
         <div
           className={`collapse navbar-collapse order-4 order-lg-3 flex-grow-0 ${
@@ -144,8 +155,8 @@ function Navbar() {
                   className={`nav-link px-3 btn btn-link ${
                     active === id ? "text-info" : ""
                   }`}
-                  onClick={() => scrollToSection(id)}
                   style={{ textDecoration: "none" }}
+                  onClick={() => scrollToSection(id)}
                 >
                   {id === "hero"
                     ? "Home"
@@ -154,7 +165,7 @@ function Navbar() {
               </li>
             ))}
 
-            {/* RESUME */}
+            {/* RESUME BUTTON */}
 
             <li className="nav-item">
               <Link
@@ -183,17 +194,17 @@ function Navbar() {
                     className="fas fa-moon"
                     style={{
                       color: "#f1c40f",
-                      textShadow: "0 0 10px rgba(241,196,15,0.5)",
+                      textShadow: "0 0 10px rgba(241, 196, 15, 0.5)",
                     }}
-                  />
+                  ></i>
                 ) : (
                   <i
                     className="fas fa-sun"
                     style={{
                       color: "#ffdb58",
-                      textShadow: "0 0 15px rgba(255,219,88,0.8)",
+                      textShadow: "0 0 15px rgba(255, 219, 88, 0.8)",
                     }}
-                  />
+                  ></i>
                 )}
               </div>
             </li>
