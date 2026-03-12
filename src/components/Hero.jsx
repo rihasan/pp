@@ -48,7 +48,7 @@ function Hero() {
                 */}
           <div className="col-lg-5 d-none d-lg-block text-end">
             <img
-              src="./1.png"
+              src="/pp/1.png"
               className="img-fluid rounded-4 shadow-lg border border-info border-3"
               alt="Riazul Islam"
             />
